@@ -1,0 +1,18 @@
+{
+  "name": "changefrog",
+  "version": "0.0.1",
+  "description": "Update CHANGELOG file for next release.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "changelog"
+  ],
+  "author": "Pieter Heyvaert (https://pieterheyvaert.com)",
+  "license": "MIT",
+  "dependencies": {
+    "changelog-parser": "^2.8.0",
+    "fs-extra": "^9.0.0"
+  }
+}
