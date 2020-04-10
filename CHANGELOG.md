@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## Unreleased
 
+### Added
+- Run tests via npm test (see [issue 5](https://github.com/pheyvaer/changefrog/issues/5))
+
 ## [1.0.0] - 2020-04-10
 
 - Initial release
