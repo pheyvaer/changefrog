@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added
 - Run tests via npm test (see [issue 5](https://github.com/pheyvaer/changefrog/issues/5))
+- Make CLI complain when neither -i or -n are provided  (see [issue 6](https://github.com/pheyvaer/changefrog/issues/6))
 
 ## [1.0.0] - 2020-04-10
 

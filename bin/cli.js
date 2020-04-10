@@ -26,6 +26,11 @@ if (program.increment && program.newVersion) {
   process.exit(1);
 }
 
+if (! (program.increment || program.newVersion)) {
+  console.error('Please provide an increment via -i, --increment or a new version via -n, --new-version.');
+  process.exit(1);
+}
+
 if (!path.isAbsolute(program.file)) {
   program.file = path.join(process.cwd(), program.file);
 }
