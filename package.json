@@ -1,11 +1,19 @@
 {
   "name": "changefrog",
   "version": "0.0.1",
-  "description": "Update CHANGELOG file for next release.",
+  "description": "Automatically update changelog for next release.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pheyvaer/changefrog.git"
+  },
+  "bugs": {
+    "url": "https://github.com/pheyvaer/changefrog/issues"
+  },
+  "homepage": "https://github.com/pheyvaer/changefrog#readme",
   "keywords": [
     "changelog"
   ],
