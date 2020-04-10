@@ -1,12 +1,29 @@
-async function main(changelogStr, newVersion, date) {
+const semver = require('semver');
+
+async function main(changelogStr, options) {
+  let date = options.date;
+  let newVersion = options.newVersion;
+  let increment = options.increment;
+
+  const lines = changelogStr.split('\n');
+
+  if (!newVersion) {
+
+    if (!increment) {
+      throw new Error(`Neither "increment" nor "newVersion" are provided.`);
+    }
+
+    const latestVersion = _findLatestVersion(lines);
+    newVersion = semver.inc(latestVersion, increment);
+  }
+
   if (!date) {
     date = new Date();
   }
 
-  // TODO format date.
+  date = _formatDate(date);
 
   let temp = changelogStr.replace('## Unreleased', `## Unreleased\n\n## [${newVersion}] - ${date}`);
-  const lines = temp.split('\n');
 
   let i = 0;
 
@@ -22,44 +39,44 @@ async function main(changelogStr, newVersion, date) {
   url = url.replace(/v.*\.\.\.v.*/, oldVersion + '...' + 'v' + newVersion);
   temp = temp.replace(oldVersionUrl, `[${newVersion}]: ${url}\n${lines[i]}`);
 
-  console.log(temp);
   return temp;
 }
 
-main(`
-# changelog title
- 
-A cool description (optional).
- 
-## Unreleased
+/**
+ * This method returns a formatted string of the provided date.
+ * @param date The date to be used.
+ * @returns {string} The formatted string.
+ * @private
+ */
+function _formatDate(date) {
+  let month = '' + (date.getMonth() + 1);
 
-* foo
- 
-## x.y.z - YYYY-MM-DD (or DD.MM.YYYY, D/M/YY, etc.)
-* bar
- 
-## [a.b.c]
- 
-### Changes
- 
-* Update API
-* Fix bug #1
- 
-## 2.2.3-pre.1 - 2013-02-14
-* Update API
- 
-## 2.0.0-x.7.z.92 - 2013-02-14
-* bark bark
-* woof
-* arf
- 
-## v1.3.0
- 
-* make it so
- 
-## [1.2.3](link)
-* init
- 
-[0.2.0]: https://github.com/RMLio/yarrrml-parser/compare/v0.1.6...v0.2.0
-[0.1.6]: https://github.com/RMLio/yarrrml-parser/compare/v0.1.5...v0.1.6
-`, '2.0.0');
+  if (month.length === 1) {
+    month = '0' + month;
+  }
+
+  let day = '' + date.getUTCDate();
+
+  if (day.length === 1) {
+    day = '0' + day;
+  }
+
+  return `${date.getFullYear()}-${month}-${day}`;
+}
+
+function _findLatestVersion(lines) {
+  let i = 0;
+
+  while (i < lines.length && !lines[i].startsWith('[') && !lines[i].includes('] - ')) {
+    i ++;
+  }
+
+  if (i < lines.length) {
+    const elements = lines[i].split(' ');
+    return elements[1].replace(/\[|\]/g, '');
+  } else {
+    return null;
+  }
+}
+
+module.exports = main;
