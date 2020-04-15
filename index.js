@@ -36,7 +36,7 @@ async function main(changelogStr, options) {
   let url = oldVersionUrl.split(' ')[1];
   let oldVersion = 'v' + oldVersionUrl.split(' ')[0].replace('[', '').replace(']:', '');
 
-  url = url.replace(/v.*\.\.\.v.*/, oldVersion + '...' + 'v' + newVersion);
+  url = url.replace(/\/v[^v]*\.\.\.v.*/, `/${oldVersion}...v${newVersion}`);
   temp = temp.replace(oldVersionUrl, `[${newVersion}]: ${url}\n${lines[i]}`);
 
   return temp;

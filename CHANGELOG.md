@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## Unreleased
 
+### Fixed
+- Problem if branchname ends with `v` in gitlab  (see [issue 8](https://github.com/pheyvaer/changefrog/issues/8))
+
 ## [1.0.1] - 2020-04-10
 
 ### Added
