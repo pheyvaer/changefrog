@@ -1,6 +1,6 @@
 {
   "name": "changefrog",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Automatically update changelog for next release.",
   "main": "index.js",
   "scripts": {
