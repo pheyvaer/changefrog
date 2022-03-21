@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## Unreleased
 
+### Added
+- Get changelogs for a tag (see [issue 13](https://github.com/pheyvaer/changefrog/issues/13))
+
 ### Changed
 - Update dev dependencies
 
