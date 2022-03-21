@@ -1,10 +1,11 @@
 #!/usr/bin/env node
 
-const { program } = require('commander');
+const {program} = require('commander');
 const fs = require('fs-extra');
 const path = require('path');
 const pkg = fs.readJsonSync(path.join(__dirname, '../package.json'));
-const main = require('../index');
+const changelog = require('../lib/changelog');
+const getChanges = require('../lib/changes');
 
 program.version(pkg.version);
 
@@ -13,40 +14,57 @@ program
   .option('-r, --dry-run', 'Do not update file, but output updated file instead.')
   .option('-f, --file <path>', 'Path of CHANGELOG file.', 'CHANGELOG.md')
   .option('-i, --increment <string>', 'Auto-increment version number with major, minor, or patch.')
+  .option('-c, --changes <string>', 'Get changelog for given version number.')
   .option('-n, --new-version <semver>', 'New version.');
 
-program.parse(process.argv);
+program.parse();
 
-if (!program.date) {
-  program.date = new Date();
+const options = program.opts();
+
+if (!options.date) {
+  options.date = new Date();
 }
 
-if (program.increment && program.newVersion) {
+if (options.increment && options.newVersion) {
   console.error('Options -i, --increment and -n, --new-version cannot be used together.');
   process.exit(1);
 }
 
-if (! (program.increment || program.newVersion)) {
-  console.error('Please provide an increment via -i, --increment or a new version via -n, --new-version.');
+if (!(options.increment || options.newVersion || options.changes)) {
+  console.error('Please provide');
+  console.error('  - an increment via -i, --increment');
+  console.error('  - a new version via -n, --new-version, or');
+  console.error('  - an existing version via -c, --changes.');
   process.exit(1);
 }
 
-if (!path.isAbsolute(program.file)) {
-  program.file = path.join(process.cwd(), program.file);
+if (!path.isAbsolute(options.file)) {
+  options.file = path.join(process.cwd(), options.file);
 }
 
-const changelogStr = fs.readFileSync(program.file, 'utf-8');
+const changelogStr = fs.readFileSync(options.file, 'utf-8');
 
-main(changelogStr, {
-  increment: program.increment,
-  newVersion: program.newVersion
-}).then(updateChangelog => {
-  if (program.dryRun) {
-    console.log(updateChangelog);
-  } else {
-    fs.writeFile(program.file, updateChangelog);
+main();
+
+async function main() {
+  try {
+    if (options.changes) {
+      const changes = getChanges(changelogStr, options.changes);
+      console.log(changes);
+    } else {
+      const updateChangelog = await changelog(changelogStr, {
+        increment: options.increment,
+        newVersion: options.newVersion
+      });
+
+      if (options.dryRun) {
+        console.log(updateChangelog);
+      } else {
+        fs.writeFile(options.file, updateChangelog);
+      }
+    }
+  } catch (err) {
+    console.error(err.message);
+    process.exit(1);
   }
-}).catch(err => {
-  console.error(err);
-  process.exit(1);
-});
+}
