@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## Unreleased
 
+## [1.1.0] - 2022-03-22
+
 ### Added
 - Get changelogs for a tag (see [issue 13](https://github.com/pheyvaer/changefrog/issues/13))
 
@@ -28,6 +30,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 - Initial release
 
+[1.1.0]: https://github.com/pheyvaer/changefrog/compare/v1.0.2...v1.1.0
 [1.0.2]: https://github.com/pheyvaer/changefrog/compare/v1.0.1...v1.0.2
 [1.0.1]: https://github.com/pheyvaer/changefrog/compare/v1.0.0...v1.0.1
 [1.0.0]: https://github.com/pheyvaer/changefrog/releases/tag/v1.0.0
